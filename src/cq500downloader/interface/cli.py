@@ -10,11 +10,12 @@ def cli() -> None:
     """
     parser = argparse.ArgumentParser(description="CQ500 Dataset Downloader and Processor")
     parser.add_argument("--download", action="store_true", help="Download the CQ500 dataset")
+    parser.add_argument("--overwrite", action="store_true", help="Overwrite the dataset if it already exists")
     parser.add_argument("--destination-folder", type=str, default="cq500", help="Destination folder for the dataset")
     args = parser.parse_args()
 
     if args.download:
         destination_folder = Path(args.destination_folder)
-        download_dataset(destination=destination_folder)
+        download_dataset(destination=destination_folder, overwrite=args.overwrite)
     else:
         parser.print_help()

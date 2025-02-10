@@ -66,7 +66,7 @@ def unzip_patient(patient_zip_filepath: Path, destination: Path) -> None:
     os.remove(patient_zip_filepath)
 
 
-def download_dataset(destination: Path = Path("cq500")) -> None:
+def download_dataset(destination: Path = Path("cq500"), overwrite=False) -> None:
     """
     Downloads the CQ500 dataset using wget or aria2.
 
@@ -74,11 +74,16 @@ def download_dataset(destination: Path = Path("cq500")) -> None:
     ----------
     destination : Path, optional
         Directory where the dataset will be downloaded, by default Path("cq500")
+    overwrite : bool, optional
+        Overwrite the dataset if it already exists, by default False
     """
     url_base = "https://s3.ap-south-1.amazonaws.com/qure.headct.study"
     os.makedirs(destination, exist_ok=True)
 
     for patient_number in range(491):
+        if not overwrite and Path(f"{destination}/CQ500CT{patient_number} CQ500CT{patient_number}").exists():
+            logger.info(f"Patient {patient_number} already exists. Skipping...")
+            continue
         base_name = f"CQ500-CT-{patient_number}"
         patient_zip_filepath = Path(f"{destination}/{base_name}.zip")
         download_patient(patient_number, patient_zip_filepath)
