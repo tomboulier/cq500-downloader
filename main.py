@@ -64,20 +64,6 @@ def preprocess_data(source: str, destination: str) -> None:
     # Implement preprocessing logic here
 
 
-def list_commands() -> None:
-    """
-    Lists the available commands.
-    """
-    commands = [
-        "--download: Download the CQ500 dataset",
-        "--convert: Convert the dataset to NIfTI format",
-        "--preprocess: Preprocess the NIfTI files"
-    ]
-    print("Available commands:")
-    for command in commands:
-        print(command)
-
-
 def main(download: bool = True, convert: bool = False, preprocess: bool = False, list_cmds: bool = False) -> None:
     """
     Main function to handle dataset download, conversion, and preprocessing.
@@ -93,10 +79,6 @@ def main(download: bool = True, convert: bool = False, preprocess: bool = False,
     list_cmds : bool, optional
         Whether to list the available commands, by default False
     """
-    if list_cmds:
-        list_commands()
-        return
-
     data_dir = "cq500"
     nifti_dir = "cq500_nifti"
     preprocessed_dir = "cq500_preprocessed"
@@ -114,7 +96,9 @@ if __name__ == "__main__":
     parser.add_argument("--download", action="store_true", help="Download the CQ500 dataset")
     parser.add_argument("--convert", action="store_true", help="Convert the dataset to NIfTI format")
     parser.add_argument("--preprocess", action="store_true", help="Preprocess the NIfTI files")
-    parser.add_argument("--list-commands", action="store_true", help="List the available commands")
     args = parser.parse_args()
 
-    main(download=args.download, convert=args.convert, preprocess=args.preprocess, list_cmds=args.list_commands)
+    if not any(vars(args).values()):
+        parser.print_help()
+    else:
+        main(download=args.download, convert=args.convert, preprocess=args.preprocess, list_cmds=args.list_commands)
