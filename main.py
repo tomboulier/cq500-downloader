@@ -34,16 +34,14 @@ def cli() -> None:
     """
     Command-line interface for the CQ500 dataset downloader.
     """
-    data_dir = "cq500"
-
     parser = argparse.ArgumentParser(description="CQ500 Dataset Downloader and Processor")
     parser.add_argument("--download", action="store_true", help="Download the CQ500 dataset")
+    parser.add_argument("--destination-folder", type=str, default="cq500", help="Destination folder for the dataset")
     args = parser.parse_args()
 
     if args.download:
-        download_cq500(destination=data_dir)
-
-    if not any(vars(args).values()):
+        download_cq500(destination=args.destination_folder)
+    else:
         parser.print_help()
 
 
