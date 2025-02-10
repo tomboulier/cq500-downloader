@@ -31,6 +31,36 @@ def download_patient(patient_number: int, destination_file: Path) -> None:
         raise error
 
 
+def unzip_patient(patient_zip_filepath: Path, destination: Path) -> None:
+    """
+    Unzips a patient file.
+
+    Parameters
+    ----------
+    patient_zip_filepath : Path
+        Path to the patient zip file
+    destination : Path
+        Directory where the dataset will be downloaded
+
+    Raises
+    ------
+    FileNotFoundError
+        If the patient zip file is not found
+    FileNotFoundError
+        If the destination directory is not found
+    """
+    if not patient_zip_filepath.exists():
+        raise FileNotFoundError(f"File {patient_zip_filepath} not found")
+
+    if not destination.exists():
+        raise FileNotFoundError(f"Destination directory {destination} not found")
+
+    logger.info(f"Unzipping {patient_zip_filepath}...")
+    with zipfile.ZipFile(patient_zip_filepath, "r") as zip_ref:
+        zip_ref.extractall(destination)
+    logger.info(f"Unzipped {patient_zip_filepath}")
+
+
 def download_dataset(destination: Path = Path("cq500")) -> None:
     """
     Downloads the CQ500 dataset using wget or aria2.
@@ -47,10 +77,4 @@ def download_dataset(destination: Path = Path("cq500")) -> None:
         base_name = f"CQ500-CT-{patient_number}"
         patient_zip_filepath = Path(f"{destination}/{base_name}.zip")
         download_patient(patient_number, patient_zip_filepath)
-
-        # unzip file
-        logger.info(f"Unzipping {patient_zip_filepath}...")
-        with zipfile.ZipFile(patient_zip_filepath, "r") as zip_ref:
-            zip_ref.extractall(destination)
-        logger.info(f"Unzipped {patient_zip_filepath}")
-
+        unzip_patient(patient_zip_filepath, destination)
