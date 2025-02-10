@@ -59,6 +59,7 @@ def unzip_patient(patient_zip_filepath: Path, destination: Path) -> None:
     with zipfile.ZipFile(patient_zip_filepath, "r") as zip_ref:
         zip_ref.extractall(destination)
     logger.info(f"Unzipped {patient_zip_filepath}")
+    os.remove(patient_zip_filepath)
 
 
 def download_dataset(destination: Path = Path("cq500")) -> None:
