@@ -1,4 +1,5 @@
 import argparse
+from pathlib import Path
 
 from src.cq500downloader.domain.usecases.download import download_dataset
 
@@ -13,6 +14,7 @@ def cli() -> None:
     args = parser.parse_args()
 
     if args.download:
-        download_dataset(destination=args.destination_folder)
+        destination_folder = Path(args.destination_folder)
+        download_dataset(destination=destination_folder)
     else:
         parser.print_help()
