@@ -2,6 +2,8 @@ import os
 import subprocess
 from pathlib import Path
 from typing import Optional
+import shutil
+import argparse
 
 
 def download_cq500(destination: str = "cq500") -> None:
@@ -16,35 +18,82 @@ def download_cq500(destination: str = "cq500") -> None:
     url_list = "http://headctstudy.qure.ai/static/cq500_files.txt"
     os.makedirs(destination, exist_ok=True)
 
-    cmd = f"wget -i {url_list} -P {destination}"  # Default to wget
+    cmd = f"wget -c -i {url_list} -P {destination}"  # Default to wget with resume support
 
     if shutil.which("aria2c"):
-        cmd = f"aria2c -x5 -i {url_list} -d {destination}"  # Use aria2 if available
+        cmd = f"aria2c -x5 -c -i {url_list} -d {destination}"  # Use aria2 if available with resume support
 
-    subprocess.run(cmd, shell=True, check=True)
-    print(f"CQ500 dataset downloaded in {destination}")
+    try:
+        subprocess.run(cmd, shell=True, check=True)
+        print(f"CQ500 dataset downloaded in {destination}")
+    except subprocess.CalledProcessError as e:
+        print(f"Error during download: {e}")
 
 
-def main(download: bool = True) -> None:
+def convert_to_nifti(source: str, destination: str) -> None:
     """
-    Main function to handle dataset download.
+    Converts the downloaded files to NIfTI format.
+
+    Parameters
+    ----------
+    source : str
+        Directory where the downloaded files are located
+    destination : str
+        Directory where the converted files will be saved
+    """
+    os.makedirs(destination, exist_ok=True)
+    # Placeholder for conversion logic
+    print(f"Converting files from {source} to NIfTI format in {destination}")
+    # Implement conversion logic here
+
+
+def preprocess_data(source: str, destination: str) -> None:
+    """
+    Preprocesses the NIfTI files.
+
+    Parameters
+    ----------
+    source : str
+        Directory where the NIfTI files are located
+    destination : str
+        Directory where the preprocessed files will be saved
+    """
+    os.makedirs(destination, exist_ok=True)
+    # Placeholder for preprocessing logic
+    print(f"Preprocessing NIfTI files from {source} to {destination}")
+    # Implement preprocessing logic here
+
+
+def main(download: bool = True, convert: bool = False, preprocess: bool = False) -> None:
+    """
+    Main function to handle dataset download, conversion, and preprocessing.
 
     Parameters
     ----------
     download : bool, optional
         Whether to download the dataset, by default True
+    convert : bool, optional
+        Whether to convert the dataset to NIfTI format, by default False
+    preprocess : bool, optional
+        Whether to preprocess the NIfTI files, by default False
     """
     data_dir = "cq500"
+    nifti_dir = "cq500_nifti"
+    preprocessed_dir = "cq500_preprocessed"
 
     if download:
         download_cq500(destination=data_dir)
+    if convert:
+        convert_to_nifti(source=data_dir, destination=nifti_dir)
+    if preprocess:
+        preprocess_data(source=nifti_dir, destination=preprocessed_dir)
 
 
 if __name__ == "__main__":
-    import argparse
-
-    parser = argparse.ArgumentParser(description="CQ500 Dataset Downloader")
+    parser = argparse.ArgumentParser(description="CQ500 Dataset Downloader and Processor")
     parser.add_argument("--download", action="store_true", help="Download the CQ500 dataset")
+    parser.add_argument("--convert", action="store_true", help="Convert the dataset to NIfTI format")
+    parser.add_argument("--preprocess", action="store_true", help="Preprocess the NIfTI files")
     args = parser.parse_args()
 
-    main(download=args.download)
+    main(download=args.download, convert=args.convert, preprocess=args.preprocess)
