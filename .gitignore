@@ -1,3 +1,6 @@
+# default output directory
+cq500/
+
 # PyCharm files
 .idea/
 
