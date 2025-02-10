@@ -35,8 +35,6 @@ def cli() -> None:
     Command-line interface for the CQ500 dataset downloader.
     """
     data_dir = "cq500"
-    nifti_dir = "cq500_nifti"
-    preprocessed_dir = "cq500_preprocessed"
 
     parser = argparse.ArgumentParser(description="CQ500 Dataset Downloader and Processor")
     parser.add_argument("--download", action="store_true", help="Download the CQ500 dataset")
