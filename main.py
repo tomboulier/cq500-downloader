@@ -15,7 +15,7 @@ def download_cq500(destination: str = "cq500") -> None:
     destination : str, optional
         Directory where the dataset will be downloaded, by default "cq500"
     """
-    url_list = "http://headctstudy.qure.ai/static/cq500_files.txt"
+    url_list = "http://15.206.3.216/static/cq500_files.txt"
     os.makedirs(destination, exist_ok=True)
 
     cmd = f"wget -c -i {url_list} -P {destination}"  # Default to wget with resume support
