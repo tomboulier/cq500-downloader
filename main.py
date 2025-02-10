@@ -6,7 +6,7 @@ import shutil
 import argparse
 
 
-def download_cq500(destination: str = "cq500") -> None:
+def download_dataset(destination: str = "cq500") -> None:
     """
     Downloads the CQ500 dataset using wget or aria2.
 
@@ -40,7 +40,7 @@ def cli() -> None:
     args = parser.parse_args()
 
     if args.download:
-        download_cq500(destination=args.destination_folder)
+        download_dataset(destination=args.destination_folder)
     else:
         parser.print_help()
 
