@@ -1,6 +1,9 @@
 import os
 import shutil
 import subprocess
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def download_dataset(destination: str = "cq500") -> None:
@@ -22,6 +25,7 @@ def download_dataset(destination: str = "cq500") -> None:
 
     try:
         subprocess.run(cmd, shell=True, check=True)
-        print(f"CQ500 dataset downloaded in {destination}")
-    except subprocess.CalledProcessError as e:
-        print(f"Error during download: {e}")
+        logger.info(f"CQ500 dataset downloaded in {destination}")
+    except subprocess.CalledProcessError as error:
+        logger.error(f"Error during download: {error}")
+        raise error
