@@ -1,0 +1,6 @@
+[project]
+name = "cq500-downloader"
+version = "0.1.0"
+description = "A downloader for the CQ500 brain CT scan dataset."
+requires-python = ">=3.12"
+dependencies = []
