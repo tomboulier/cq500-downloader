@@ -64,39 +64,31 @@ def preprocess_data(source: str, destination: str) -> None:
     # Implement preprocessing logic here
 
 
-def main(download: bool = True, convert: bool = False, preprocess: bool = False) -> None:
+def cli() -> None:
     """
-    Main function to handle dataset download, conversion, and preprocessing.
-
-    Parameters
-    ----------
-    download : bool, optional
-        Whether to download the dataset, by default True
-    convert : bool, optional
-        Whether to convert the dataset to NIfTI format, by default False
-    preprocess : bool, optional
-        Whether to preprocess the NIfTI files, by default False
+    Command-line interface for the CQ500 dataset downloader.
     """
     data_dir = "cq500"
     nifti_dir = "cq500_nifti"
     preprocessed_dir = "cq500_preprocessed"
 
-    if download:
-        download_cq500(destination=data_dir)
-    if convert:
-        convert_to_nifti(source=data_dir, destination=nifti_dir)
-    if preprocess:
-        preprocess_data(source=nifti_dir, destination=preprocessed_dir)
-
-
-if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="CQ500 Dataset Downloader and Processor")
     parser.add_argument("--download", action="store_true", help="Download the CQ500 dataset")
     parser.add_argument("--convert", action="store_true", help="Convert the dataset to NIfTI format")
     parser.add_argument("--preprocess", action="store_true", help="Preprocess the NIfTI files")
     args = parser.parse_args()
 
+    if args.download:
+        download_cq500(destination=data_dir)
+    if args.convert:
+        convert_to_nifti(source=data_dir, destination=nifti_dir)
+    if args.preprocess:
+        preprocess_data(source=nifti_dir, destination=preprocessed_dir)
+
     if not any(vars(args).values()):
         parser.print_help()
-    else:
-        main(download=args.download, convert=args.convert, preprocess=args.preprocess)
+
+
+
+if __name__ == "__main__":
+    cli()
