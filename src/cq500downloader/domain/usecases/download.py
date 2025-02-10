@@ -55,10 +55,14 @@ def unzip_patient(patient_zip_filepath: Path, destination: Path) -> None:
     if not destination.exists():
         raise FileNotFoundError(f"Destination directory {destination} not found")
 
-    logger.info(f"Unzipping {patient_zip_filepath}...")
-    with zipfile.ZipFile(patient_zip_filepath, "r") as zip_ref:
-        zip_ref.extractall(destination)
-    logger.info(f"Unzipped {patient_zip_filepath}")
+    try:
+        logger.info(f"Unzipping {patient_zip_filepath}...")
+        with zipfile.ZipFile(patient_zip_filepath, "r") as zip_ref:
+            zip_ref.extractall(destination)
+        logger.info(f"Unzipped {patient_zip_filepath}")
+    except Exception as error:
+        logger.error(f"Error unzipping {patient_zip_filepath}: {error}")
+
     os.remove(patient_zip_filepath)
 
 
