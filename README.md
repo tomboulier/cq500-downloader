@@ -21,7 +21,7 @@ This tool provides a command-line interface to manage the dataset efficiently.
 Clone the repository and navigate to the project directory:
 
 ```sh
-git clone https://github.com/yourusername/cq500-downloader.git
+git clone https://github.com/tomboulier/cq500-downloader.git
 cd cq500-downloader
 ```
 
