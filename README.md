@@ -39,4 +39,9 @@ python main.py --help
 
 ## License
 
-This project is licensed under the [CC BY-NC-SA 4.0 License](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en).
+CQ500 dataset by qure.ai is licensed under a 
+[Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/).
+Any rights in individual contents of the dataset are licensed under the 
+[End User License Agreement (EULA)](http://15.206.3.216/static/EULA.txt).
+
+The source code of this project is licensed under the MIT License.
