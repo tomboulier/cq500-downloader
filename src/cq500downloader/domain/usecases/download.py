@@ -1,4 +1,5 @@
 import os
+import zipfile
 import logging
 from pathlib import Path
 from urllib.request import urlretrieve
@@ -44,5 +45,12 @@ def download_dataset(destination: Path = Path("cq500")) -> None:
 
     for patient_number in range(491):
         base_name = f"CQ500-CT-{patient_number}"
-        download_patient(patient_number, Path(f"{destination}/{base_name}.zip"))
+        patient_zip_filepath = Path(f"{destination}/{base_name}.zip")
+        download_patient(patient_number, patient_zip_filepath)
+
+        # unzip file
+        logger.info(f"Unzipping {patient_zip_filepath}...")
+        with zipfile.ZipFile(patient_zip_filepath, "r") as zip_ref:
+            zip_ref.extractall(destination)
+        logger.info(f"Unzipped {patient_zip_filepath}")
 
