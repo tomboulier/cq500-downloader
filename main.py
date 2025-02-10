@@ -64,7 +64,7 @@ def preprocess_data(source: str, destination: str) -> None:
     # Implement preprocessing logic here
 
 
-def main(download: bool = True, convert: bool = False, preprocess: bool = False, list_cmds: bool = False) -> None:
+def main(download: bool = True, convert: bool = False, preprocess: bool = False) -> None:
     """
     Main function to handle dataset download, conversion, and preprocessing.
 
@@ -76,8 +76,6 @@ def main(download: bool = True, convert: bool = False, preprocess: bool = False,
         Whether to convert the dataset to NIfTI format, by default False
     preprocess : bool, optional
         Whether to preprocess the NIfTI files, by default False
-    list_cmds : bool, optional
-        Whether to list the available commands, by default False
     """
     data_dir = "cq500"
     nifti_dir = "cq500_nifti"
@@ -101,4 +99,4 @@ if __name__ == "__main__":
     if not any(vars(args).values()):
         parser.print_help()
     else:
-        main(download=args.download, convert=args.convert, preprocess=args.preprocess, list_cmds=args.list_commands)
+        main(download=args.download, convert=args.convert, preprocess=args.preprocess)
